@@ -1,5 +1,6 @@
 import org.jgrapht.alg.*;
 import org.jgrapht.graph.*;
+import org.jgrapht.GraphPath;
 import java.util.*;
 
 import java.io.BufferedReader;
@@ -18,10 +19,30 @@ public class USFWordAssociation {
 		USFWordAssociation wa = new USFWordAssociation();
 		wa.loadWordList("master_word_list.txt");
 		wa.loadEdges("adjusted_edges_list.txt");
+		
+
+		
 		System.out.println("Shortest path from 47 to 79:");
-        List<WeightedEdge> shortest_path =   DijkstraShortestPath.findPathBetween(wa.graph, "2253", "10489");
-        wa.printPath(shortest_path);
-        System.out.println(shortest_path);
+		AllShortestPaths<String, WeightedEdge> shortestPaths = new AllShortestPaths<String, WeightedEdge>(wa.graph, "2253", "10489");
+        //List<WeightedEdge> shortest_path =   AllShortestPaths.findPathBetween(wa.graph, "2253", "10489");
+		
+		BellmanFordShortestPath<String, WeightedEdge> bfPath = new BellmanFordShortestPath<String,WeightedEdge>(wa.graph, "2253");
+		int count = 0;
+        for(int i=1; i < wa.wordList.size(); i++){
+        	try	{
+        		List<WeightedEdge> list = bfPath.getPathEdgeList("" + i);
+        		wa.printPath(list);
+        		System.out.println(bfPath.getCost("" + i));
+        		count++;
+        	} catch(java.lang.IllegalArgumentException e){
+        		System.out.println("Bad vertex: " + i);
+        	}
+        	
+        }
+     
+      //  wa.printPath(shortestPaths.getPath());
+        System.out.println("Done - " + count + " lines");
+        //System.out.println(shortest_path);
 	}
 
 	USFWordAssociation(){
@@ -52,12 +73,17 @@ public class USFWordAssociation {
 	}
 	
 	void printPath(List<WeightedEdge> list){
+		if(list == null)
+			return;
+		String str = "";
 		for (int i=0;i<list.size();i++) {
 		    WeightedEdge e = list.get(i);
-		    System.out.println(this.wordForIndexString((String)e.getSource()));
-		    System.out.println(this.wordForIndexString((String)e.getTarget()));
-
+		    str += this.wordForIndexString((String)e.getSource());
+		    str += " ";
+		    str += this.wordForIndexString((String)e.getTarget());
+		    str += " ";
 		}
+		System.out.println(str);
 	}
 	
 	void loadWordList(String fileName){

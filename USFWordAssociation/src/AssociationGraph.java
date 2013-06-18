@@ -4,7 +4,7 @@ import org.jgrapht.*;
 
 public class AssociationGraph 
 extends AbstractBaseGraph<String, WeightedEdge>
-implements DirectedGraph<String, WeightedEdge>
+implements UndirectedGraph<String, WeightedEdge>
  {
 
 	public AssociationGraph() {// EdgeFactory<String, DefaultEdge> arg0, boolean arg1,boolean arg2
