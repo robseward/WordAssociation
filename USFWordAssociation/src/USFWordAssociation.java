@@ -1,58 +1,108 @@
-import org.jgrapht.*;
 import org.jgrapht.alg.*;
 import org.jgrapht.graph.*;
-import java.util.List;
+import java.util.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
+
 
 public class USFWordAssociation {
 
-	/**
-	 * @param args
-	 */
+	AssociationGraph  graph;
+	ArrayList<String> wordList;
+
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>  graph = new SimpleDirectedWeightedGraph<String, DefaultWeightedEdge>(DefaultWeightedEdge.class); 
-        graph.addVertex("47");
-        graph.addVertex("28");
-        graph.addVertex("29");
-        graph.addVertex("26");
-        graph.addVertex("79");
-        
-        
-        DefaultWeightedEdge e1 = graph.addEdge("47", "28"); 
-        graph.setEdgeWeight(e1, 5); 
-        
-        DefaultWeightedEdge e2 = graph.addEdge("28", "29"); 
-        graph.setEdgeWeight(e2, 3); 
-        
-        DefaultWeightedEdge e3 = graph.addEdge("26", "79"); 
-        graph.setEdgeWeight(e3, 6); 
-        
-        DefaultWeightedEdge e4 = graph.addEdge("28", "26"); 
-        graph.setEdgeWeight(e4, 2); 
-        
-        DefaultWeightedEdge e5 = graph.addEdge("79", "26"); 
-        graph.setEdgeWeight(e5, 4); 
-        
-       
-        DefaultWeightedEdge e6 = graph.addEdge("28", "79"); 
-        graph.setEdgeWeight(e6, 9); 
-        
-        DefaultWeightedEdge e7 = graph.addEdge("26", "47"); 
-        graph.setEdgeWeight(e7, 7); 
-        
-        DefaultWeightedEdge e8 = graph.addEdge("29", "28"); 
-        graph.setEdgeWeight(e8, 2); 
-        
-        DefaultWeightedEdge e9 = graph.addEdge("47", "29"); 
-        graph.setEdgeWeight(e9, 10); 
-        
-        DefaultWeightedEdge e10 = graph.addEdge("29", "79"); 
-        graph.setEdgeWeight(e10, 1); 
-        
-       
-        System.out.println("Shortest path from 47 to 79:");
-        List shortest_path =   DijkstraShortestPath.findPathBetween(graph, "47", "79");
+		
+		USFWordAssociation wa = new USFWordAssociation();
+		wa.loadWordList("master_word_list.txt");
+		wa.loadEdges("adjusted_edges_list.txt");
+		System.out.println("Shortest path from 47 to 79:");
+        List<WeightedEdge> shortest_path =   DijkstraShortestPath.findPathBetween(wa.graph, "2253", "10489");
+        wa.printPath(shortest_path);
         System.out.println(shortest_path);
 	}
 
+	USFWordAssociation(){
+		graph = new AssociationGraph();
+	}
+
+	void loadEdges(String fileName) {
+		BufferedReader br = null;
+
+		try {
+			String sCurrentLine;
+			br = new BufferedReader(new FileReader(fileName));
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				//System.out.println(sCurrentLine);
+				parseAndLoadLine(sCurrentLine);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	void printPath(List<WeightedEdge> list){
+		for (int i=0;i<list.size();i++) {
+		    WeightedEdge e = list.get(i);
+		    System.out.println(this.wordForIndexString((String)e.getSource()));
+		    System.out.println(this.wordForIndexString((String)e.getTarget()));
+
+		}
+	}
+	
+	void loadWordList(String fileName){
+		BufferedReader br = null;
+		wordList = new ArrayList<String>();
+
+		try {
+			String sCurrentLine;
+			br = new BufferedReader(new FileReader(fileName));
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				wordList.add(sCurrentLine);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (br != null)br.close();
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+
+	private void parseAndLoadLine(String line){
+		String[] elements = line.split("\t");
+		if(elements.length < 3)
+			return;
+		String cue = elements[0];
+		String target = elements[1];
+		String weightStr = elements[2];
+		
+		double weight = Double.parseDouble(weightStr);
+		
+		graph.addVertex(cue);
+		graph.addVertex(target);
+		WeightedEdge e = graph.addEdge(cue, target);
+		graph.setEdgeWeight(e, weight);
+	}
+	
+	private String wordForIndexString(String indexStr){
+		int index = Integer.parseInt(indexStr);
+		return wordList.get(index);
+	}
 }
+
+
