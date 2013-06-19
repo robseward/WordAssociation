@@ -7,8 +7,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-
-
 public class USFWordAssociation {
 
 	AssociationGraph  graph;
@@ -26,11 +24,10 @@ public class USFWordAssociation {
 		
 		BellmanFordShortestPath<String, WeightedEdge> bfPath = new BellmanFordShortestPath<String,WeightedEdge>(wa.graph, "2253");
 		int count = 0;
-        for(int i=1; i < wa.wordList.size(); i++){
+        for(int i=1; i < 10; i++){
         	try	{
         		List<WeightedEdge> list = bfPath.getPathEdgeList("" + i);
-        		wa.printPath(list);
-        		System.out.println(bfPath.getCost("" + i));
+        		Path p = new Path(list, "CREATIVE", wa.wordList);
         		count++;
         	} catch(java.lang.IllegalArgumentException e){
         		System.out.println("Bad vertex: " + i);
@@ -43,10 +40,18 @@ public class USFWordAssociation {
         //System.out.println(shortest_path);
 	}
 
+	//constructor
 	USFWordAssociation(){
 		graph = new AssociationGraph();
 	}
 
+	public ArrayList<Path> listFromWord(String word){
+		ArrayList<Path> list = new ArrayList<Path>();
+		
+		
+		
+		return list;
+	}
 	
 	void printPath(List<WeightedEdge> list){
 		if(list == null)
