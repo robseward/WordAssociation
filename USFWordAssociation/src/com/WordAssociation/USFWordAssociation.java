@@ -11,6 +11,8 @@ public class USFWordAssociation {
 
 	AssociationGraph  graph;
 	ArrayList<String> wordList;
+	BellmanFordShortestPath<String, WeightedEdge> bfPath;
+	String sourceWord;
 
 	public static void main(String[] args) {
 		
@@ -22,29 +24,58 @@ public class USFWordAssociation {
 		
 		System.out.println("Shortest path from 47 to 79:");
 		
-		BellmanFordShortestPath<String, WeightedEdge> bfPath = new BellmanFordShortestPath<String,WeightedEdge>(wa.graph, "2253");
+		wa.setSourceWord("DEATH");
+		
 		int count = 0;
-        for(int i=1; i < 10; i++){
-        	try	{
-        		List<WeightedEdge> list = bfPath.getPathEdgeList("" + i);
-        		Path p = new Path(list, "CREATIVE", wa.wordList);
-        		count++;
-        	} catch(java.lang.IllegalArgumentException e){
-        		System.out.println("Bad vertex: " + i);
+        for(int i=1; i < 1000; i++){
+        	String word = wa.wordList.get(i);
+        	try{
+        		Path p = wa.pathForWord(word);
         	}
-        	
+        	catch(java.lang.IllegalArgumentException e)
+        	{
+        		System.out.println("\nBad word: " + word);
+        	}
         }
-     
-      //  wa.printPath(shortestPaths.getPath());
-        System.out.println("Done - " + count + " lines");
-        //System.out.println(shortest_path);
+   
 	}
-
+	
 	//constructor
 	USFWordAssociation(){
 		graph = new AssociationGraph();
 	}
 
+	private void setSourceWord(String word)
+	{
+		String wordId = wordIdForWord(word);
+		this.bfPath = new BellmanFordShortestPath<String,WeightedEdge>(this.graph, wordId);
+		this.sourceWord = word;
+	}
+	
+	public Path pathForWord(String word)
+	{
+		//TODO assert that source word has been set
+		String wordId = wordIdForWord(word);
+		List<WeightedEdge> list = bfPath.getPathEdgeList(wordId);
+		Path p = new Path(list, word, wordList);
+		p.setCost(bfPath.getCost(wordId));
+		return p;
+	}
+	
+	private String wordIdForWord(String word){
+		//TODO throw error if word is not found
+		//TODO optimize this, this is gross
+		String wordId = null;
+		for(int i=0; i < wordList.size(); i++){
+			if(wordList.get(i).equals(word))
+			{
+				wordId = i + "";
+				break;
+			}
+		}
+		return wordId;
+	}
+	
 	public ArrayList<Path> listFromWord(String word){
 		ArrayList<Path> list = new ArrayList<Path>();
 		
