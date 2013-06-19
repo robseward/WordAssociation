@@ -6,13 +6,15 @@ public class Path {
 	ArrayList<String>unsortedVertices;
 	ArrayList<String>wordList;
 	
+	double cost;
+	
 	Path(List<WeightedEdge> edgeList, String sourceWord, ArrayList<String> wordList){
 		this.wordList = wordList;
 		vertices = new ArrayList<String>();
 		unsortedVertices = new ArrayList<String>();
 		convertEdgeList(edgeList);
 		orderList(sourceWord, 0);
-		
+		removeDuplicates();
 		//Temp print out testing data
 		System.out.println("");
 		for(int i=0; i<unsortedVertices.size(); i++){
@@ -28,6 +30,19 @@ public class Path {
 			String targetString = (String)edge.getTarget();
 			unsortedVertices.add(wordForIndexString(targetString));
 		}
+	}
+	
+	void removeDuplicates()
+	{
+		Iterator<String> iter = unsortedVertices.iterator();
+		String last = null;
+		while(iter.hasNext()){
+			String current = iter.next();
+			if(current.equals(last))
+				iter.remove();
+			last = current;
+		}
+		System.out.print("");
 	}
 	
 	private String wordForIndexString(String indexStr){
@@ -56,5 +71,14 @@ public class Path {
 	
 	String getTarget(){
 		return vertices.get(vertices.size()-1);
+	}
+	
+	void setCost(double c){
+		this.cost = c;
+	}
+	
+	double getCost()
+	{
+		return cost;
 	}
 }
