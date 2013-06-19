@@ -24,20 +24,14 @@ public class USFWordAssociation {
 		
 		System.out.println("Shortest path from 47 to 79:");
 		
-		wa.setSourceWord("DEATH");
 		
-		int count = 0;
-        for(int i=1; i < 1000; i++){
-        	String word = wa.wordList.get(i);
-        	try{
-        		Path p = wa.pathForWord(word);
-        	}
-        	catch(java.lang.IllegalArgumentException e)
-        	{
-        		System.out.println("\nBad word: " + word);
-        	}
-        }
-   
+		
+		
+		ArrayList<Path> paths = wa.getPathListForWord("DEATH");
+		for(int i=0; i < 100; i++){
+			Path p = paths.get(i);
+			System.out.println(p.toString());
+		}
 	}
 	
 	//constructor
@@ -45,6 +39,25 @@ public class USFWordAssociation {
 		graph = new AssociationGraph();
 	}
 
+	public ArrayList<Path> getPathListForWord(String word)
+	{
+		ArrayList<Path> list = new ArrayList<Path>();
+		this.setSourceWord(word);
+		for(int i=0; i<wordList.size(); i++){
+			String targetWord = wordList.get(i);
+			if(targetWord.equals(word) == false){
+				try{
+					Path p = pathForWord(targetWord);
+					list.add(p);
+				}catch(java.lang.IllegalArgumentException e){
+					System.out.println("Bad target word: " + targetWord);
+				}
+			}
+		}
+		Collections.sort(list);
+		return list;
+	}
+	
 	private void setSourceWord(String word)
 	{
 		String wordId = wordIdForWord(word);
@@ -65,6 +78,7 @@ public class USFWordAssociation {
 	private String wordIdForWord(String word){
 		//TODO throw error if word is not found
 		//TODO optimize this, this is gross
+		//TODO make word uppercase
 		String wordId = null;
 		for(int i=0; i < wordList.size(); i++){
 			if(wordList.get(i).equals(word))
