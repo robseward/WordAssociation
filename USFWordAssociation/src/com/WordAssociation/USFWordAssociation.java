@@ -159,7 +159,7 @@ public class USFWordAssociation {
 		String target = elements[1];
 		String weightStr = elements[2];
 		
-		double weight = Double.parseDouble(weightStr);
+		double weight = 1.0 - Double.parseDouble(weightStr);
 		
 		graph.addVertex(cue);
 		graph.addVertex(target);
