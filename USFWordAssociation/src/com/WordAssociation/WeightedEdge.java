@@ -1,3 +1,5 @@
+package com.WordAssociation;
+
 import org.jgrapht.graph.DefaultWeightedEdge;
 
 public class WeightedEdge extends DefaultWeightedEdge{
