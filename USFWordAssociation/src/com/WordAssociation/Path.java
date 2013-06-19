@@ -1,9 +1,8 @@
 package com.WordAssociation;
 import java.util.*;
 
-public class Path {
+public class Path implements Comparable<Path>{
 	ArrayList<String>vertices;
-	ArrayList<String>unsortedVertices;
 	ArrayList<String>wordList;
 	
 	double cost;
@@ -11,30 +10,25 @@ public class Path {
 	Path(List<WeightedEdge> edgeList, String sourceWord, ArrayList<String> wordList){
 		this.wordList = wordList;
 		vertices = new ArrayList<String>();
-		unsortedVertices = new ArrayList<String>();
-		convertEdgeList(edgeList);
+		convertEdgeListToVertices(edgeList);
 		orderList(sourceWord, 0);
-		removeDuplicates();
-		//Temp print out testing data
-		System.out.println("");
-		for(int i=0; i<unsortedVertices.size(); i++){
-			System.out.print(unsortedVertices.get(i) + " ");
-		}
+		removeDuplicatesInVerticesList();
+		
 	}
 	
-	void convertEdgeList(List<WeightedEdge> edgeList){
+	void convertEdgeListToVertices(List<WeightedEdge> edgeList){
 		for(int i=0; i < edgeList.size(); i++){
 			WeightedEdge edge = edgeList.get(i);
 			String sourceString = (String)edge.getSource();
-			unsortedVertices.add(wordForIndexString(sourceString));
+			vertices.add(wordForIndexString(sourceString));
 			String targetString = (String)edge.getTarget();
-			unsortedVertices.add(wordForIndexString(targetString));
+			vertices.add(wordForIndexString(targetString));
 		}
 	}
 	
-	void removeDuplicates()
+	void removeDuplicatesInVerticesList()
 	{
-		Iterator<String> iter = unsortedVertices.iterator();
+		Iterator<String> iter = vertices.iterator();
 		String last = null;
 		while(iter.hasNext()){
 			String current = iter.next();
@@ -51,13 +45,13 @@ public class Path {
 	}
 	
 	void orderList(String startWord, int index){
-		if(index >= unsortedVertices.size()-1)
+		if(index >= vertices.size()-1)
 			return;
-		String str1 = unsortedVertices.get(index);
-		String str2 = unsortedVertices.get(index+1);
+		String str1 = vertices.get(index);
+		String str2 = vertices.get(index+1);
 		//TODO assert that one word matches startWord
 		if(!str1.equals(startWord)){
-			Collections.swap(unsortedVertices, index, index+1);
+			Collections.swap(vertices, index, index+1);
 			orderList(str1, index+2);
 		} 
 		else {
@@ -81,4 +75,19 @@ public class Path {
 	{
 		return cost;
 	}
+	
+	public int compareTo(Path comparePath) {
+		return (this.getCost() > comparePath.getCost()) ? 1 : -1;
+	}
+	
+	public String toString()
+	{
+		String str = "";
+		for(int i=0; i<vertices.size(); i++){
+			str += vertices.get(i) + " ";
+		}
+		str += " | cost: " + this.getCost();
+		return str;
+	}
+	
 }
