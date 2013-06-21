@@ -19,9 +19,9 @@ public class WordAssociation {
 		WordAssociation wa = new WordAssociation("master_word_list.txt", "adjusted_edges_list.txt");		
 		
 		try{
-			wa.setSourceWord("DEATH");
+			wa.setSourceWord("life");
 			ArrayList<WordPath> paths = wa.getAllPaths();
-			for(int i=0; i < 1000; i++){
+			for(int i=0; i < 100; i++){
 				WordPath p = paths.get(i);
 				System.out.println(p.toString());
 			}
@@ -73,6 +73,7 @@ public class WordAssociation {
 	
 	public void setSourceWord(String word) throws Exception
 	{
+		word = word.toUpperCase();
 		String wordId = wordIdForWord(word);
 		this.bfPath = new BellmanFordShortestPath<String,WeightedEdge>(this.graph, wordId);
 		this.sourceWord = word;

@@ -2,7 +2,7 @@ package seward.wordassociation;
 import java.util.*;
 
 public class WordPath implements Comparable<WordPath>{
-	ArrayList<String>vertices;
+	private ArrayList<String>vertices;
 	private ArrayList<String>wordList;
 	
 	double cost;
@@ -13,10 +13,9 @@ public class WordPath implements Comparable<WordPath>{
 		convertEdgeListToVertices(edgeList);
 		orderList(sourceWord, 0);
 		removeDuplicatesInVerticesList();
-		
 	}
 	
-	void convertEdgeListToVertices(List<WeightedEdge> edgeList){
+	private void convertEdgeListToVertices(List<WeightedEdge> edgeList){
 		for(int i=0; i < edgeList.size(); i++){
 			WeightedEdge edge = edgeList.get(i);
 			String sourceString = (String)edge.getSource();
@@ -26,7 +25,7 @@ public class WordPath implements Comparable<WordPath>{
 		}
 	}
 	
-	void orderList(String startWord, int index){
+	private void orderList(String startWord, int index){
 		if(index >= vertices.size()-1)
 			return;
 		String str1 = vertices.get(index);
@@ -41,7 +40,7 @@ public class WordPath implements Comparable<WordPath>{
 		}
 	}
 	
-	void removeDuplicatesInVerticesList()
+	private void removeDuplicatesInVerticesList()
 	{
 		Iterator<String> iter = vertices.iterator();
 		String last = null;
@@ -76,6 +75,10 @@ public class WordPath implements Comparable<WordPath>{
 	double getCost()
 	{
 		return cost;
+	}
+	
+	ArrayList<String> getPathVertices(){
+		return vertices;
 	}
 	
 	public int compareTo(WordPath comparePath) {
