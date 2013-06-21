@@ -7,7 +7,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class USFWordAssociation {
+public class WordAssociation {
 
 	AssociationGraph  graph;
 	ArrayList<String> wordList;
@@ -16,9 +16,7 @@ public class USFWordAssociation {
 
 	public static void main(String[] args) {
 		
-		USFWordAssociation wa = new USFWordAssociation();		
-		wa.loadWordList("master_word_list.txt");
-		wa.loadEdges("adjusted_edges_list.txt");
+		WordAssociation wa = new WordAssociation("master_word_list.txt", "adjusted_edges_list.txt");		
 		
 		try{
 			ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
@@ -29,15 +27,17 @@ public class USFWordAssociation {
 		}catch(Exception e){
 			System.out.println(e);
 		}
-
 	}
 	
 	//constructor
-	public USFWordAssociation(){		
+	public WordAssociation(String wordListPath, String edgeListPath){		
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 
+
 		graph = new AssociationGraph();
+        loadWordList(wordListPath);
+        loadEdges(edgeListPath);
 	}	
 
 	public ArrayList<WordPath> getPathListForWord(String word) throws Exception
