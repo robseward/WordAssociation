@@ -19,7 +19,7 @@ public class USFWordAssociation {
 		USFWordAssociation wa = new USFWordAssociation();		
 		
 		ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
-		for(int i=0; i < 100; i++){
+		for(int i=0; i < 1000; i++){
 			WordPath p = paths.get(i);
 			System.out.println(p.toString());
 		}
@@ -57,6 +57,16 @@ public class USFWordAssociation {
 		return list;
 	}
 	
+	public WordPath pathForWord(String word)
+	{
+		//TODO assert that source word has been set
+		String wordId = wordIdForWord(word);
+		List<WeightedEdge> list = bfPath.getPathEdgeList(wordId);
+		WordPath p = new WordPath(list, this.sourceWord, wordList);
+		p.setCost(bfPath.getCost(wordId));
+		return p;
+	}
+	
 	private void setSourceWord(String word)
 	{
 		String wordId = wordIdForWord(word);
@@ -64,23 +74,13 @@ public class USFWordAssociation {
 		this.sourceWord = word;
 	}
 	
-	public WordPath pathForWord(String word)
-	{
-		//TODO assert that source word has been set
-		String wordId = wordIdForWord(word);
-		List<WeightedEdge> list = bfPath.getPathEdgeList(wordId);
-		WordPath p = new WordPath(list, word, wordList);
-		p.setCost(bfPath.getCost(wordId));
-		return p;
-	}
-	
 	private String wordIdForWord(String word){
 		//TODO throw error if word is not found
-		//TODO optimize this, this is gross
-		//TODO make word uppercase
+		//TODO optimize this, use a hash
+		String uppercaseWord = word.toUpperCase();
 		String wordId = null;
 		for(int i=0; i < wordList.size(); i++){
-			if(wordList.get(i).equals(word))
+			if(wordList.get(i).equals(uppercaseWord))
 			{
 				wordId = i + "";
 				break;
@@ -92,23 +92,7 @@ public class USFWordAssociation {
 	public ArrayList<WordPath> listFromWord(String word){
 		ArrayList<WordPath> list = new ArrayList<WordPath>();
 		
-		
-		
 		return list;
-	}
-	
-	void printPath(List<WeightedEdge> list){
-		if(list == null)
-			return;
-		String str = "";
-		for (int i=0;i<list.size();i++) {
-		    WeightedEdge e = list.get(i);
-		    str += this.wordForIndexString((String)e.getSource());
-		    str += " ";
-		    str += this.wordForIndexString((String)e.getTarget());
-		    str += " ";
-		}
-		System.out.println(str);
 	}
 	
 	private String wordForIndexString(String indexStr){

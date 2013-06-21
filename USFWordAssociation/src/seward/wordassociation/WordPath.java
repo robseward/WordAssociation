@@ -3,7 +3,7 @@ import java.util.*;
 
 public class WordPath implements Comparable<WordPath>{
 	ArrayList<String>vertices;
-	ArrayList<String>wordList;
+	private ArrayList<String>wordList;
 	
 	double cost;
 	
@@ -26,6 +26,21 @@ public class WordPath implements Comparable<WordPath>{
 		}
 	}
 	
+	void orderList(String startWord, int index){
+		if(index >= vertices.size()-1)
+			return;
+		String str1 = vertices.get(index);
+		String str2 = vertices.get(index+1);
+		//TODO assert that one word matches startWord
+		if(!str1.equals(startWord)){
+			Collections.swap(vertices, index, index+1);
+			orderList(str1, index+2);
+		} 
+		else {
+			orderList(str2, index+2);
+		}
+	}
+	
 	void removeDuplicatesInVerticesList()
 	{
 		Iterator<String> iter = vertices.iterator();
@@ -44,20 +59,7 @@ public class WordPath implements Comparable<WordPath>{
 		return wordList.get(index);
 	}
 	
-	void orderList(String startWord, int index){
-		if(index >= vertices.size()-1)
-			return;
-		String str1 = vertices.get(index);
-		String str2 = vertices.get(index+1);
-		//TODO assert that one word matches startWord
-		if(!str1.equals(startWord)){
-			Collections.swap(vertices, index, index+1);
-			orderList(str1, index+2);
-		} 
-		else {
-			orderList(str2, index+2);
-		}
-	}
+
 	
 	String getSource(){
 		return vertices.get(0);
