@@ -1,4 +1,4 @@
-package com.WordAssociation;
+package seward.wordassociation;
 
 import org.jgrapht.graph.*;
 import org.jgrapht.*;

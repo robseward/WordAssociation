@@ -24,3 +24,5 @@ local.properties
 
 # PDT-specific
 .buildpath
+USFWordAssociation/bin/com/WordAssociation/Path.class
+USFWordAssociation/bin/com/WordAssociation/USFWordAssociation.class

@@ -1,4 +1,4 @@
-package com.WordAssociation;
+package seward.wordassociation;
 
 import org.jgrapht.alg.*;
 import java.util.*;
@@ -16,38 +16,37 @@ public class USFWordAssociation {
 
 	public static void main(String[] args) {
 		
-		USFWordAssociation wa = new USFWordAssociation();
-		wa.loadWordList("master_word_list.txt");
-		wa.loadEdges("adjusted_edges_list.txt");
+		USFWordAssociation wa = new USFWordAssociation();		
 		
-
-		
-		System.out.println("Shortest path from 47 to 79:");
-		
-		
-		
-		
-		ArrayList<Path> paths = wa.getPathListForWord("DEATH");
+		ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
 		for(int i=0; i < 100; i++){
-			Path p = paths.get(i);
+			WordPath p = paths.get(i);
 			System.out.println(p.toString());
 		}
 	}
 	
 	//constructor
-	USFWordAssociation(){
+	public USFWordAssociation(){
+		
+		final String dir = System.getProperty("user.dir");
+        System.out.println("current dir = " + dir);
+		
 		graph = new AssociationGraph();
+		loadWordList("master_word_list.txt");
+		loadEdges("adjusted_edges_list.txt");
+		
+
 	}
 
-	public ArrayList<Path> getPathListForWord(String word)
+	public ArrayList<WordPath> getPathListForWord(String word)
 	{
-		ArrayList<Path> list = new ArrayList<Path>();
+		ArrayList<WordPath> list = new ArrayList<WordPath>();
 		this.setSourceWord(word);
 		for(int i=0; i<wordList.size(); i++){
 			String targetWord = wordList.get(i);
 			if(targetWord.equals(word) == false){
 				try{
-					Path p = pathForWord(targetWord);
+					WordPath p = pathForWord(targetWord);
 					list.add(p);
 				}catch(java.lang.IllegalArgumentException e){
 					System.out.println("Bad target word: " + targetWord);
@@ -65,12 +64,12 @@ public class USFWordAssociation {
 		this.sourceWord = word;
 	}
 	
-	public Path pathForWord(String word)
+	public WordPath pathForWord(String word)
 	{
 		//TODO assert that source word has been set
 		String wordId = wordIdForWord(word);
 		List<WeightedEdge> list = bfPath.getPathEdgeList(wordId);
-		Path p = new Path(list, word, wordList);
+		WordPath p = new WordPath(list, word, wordList);
 		p.setCost(bfPath.getCost(wordId));
 		return p;
 	}
@@ -90,8 +89,8 @@ public class USFWordAssociation {
 		return wordId;
 	}
 	
-	public ArrayList<Path> listFromWord(String word){
-		ArrayList<Path> list = new ArrayList<Path>();
+	public ArrayList<WordPath> listFromWord(String word){
+		ArrayList<WordPath> list = new ArrayList<WordPath>();
 		
 		
 		
@@ -119,7 +118,7 @@ public class USFWordAssociation {
 	
 	/// Load Data from files ///
 	
-	void loadWordList(String fileName){
+	public void loadWordList(String fileName){
 		BufferedReader br = null;
 		wordList = new ArrayList<String>();
 
@@ -142,7 +141,7 @@ public class USFWordAssociation {
 		}
 	}
 	
-	void loadEdges(String fileName) {
+	public void loadEdges(String fileName) {
 		BufferedReader br = null;
 
 		try {

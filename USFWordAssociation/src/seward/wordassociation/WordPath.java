@@ -1,13 +1,13 @@
-package com.WordAssociation;
+package seward.wordassociation;
 import java.util.*;
 
-public class Path implements Comparable<Path>{
+public class WordPath implements Comparable<WordPath>{
 	ArrayList<String>vertices;
 	ArrayList<String>wordList;
 	
 	double cost;
 	
-	Path(List<WeightedEdge> edgeList, String sourceWord, ArrayList<String> wordList){
+	WordPath(List<WeightedEdge> edgeList, String sourceWord, ArrayList<String> wordList){
 		this.wordList = wordList;
 		vertices = new ArrayList<String>();
 		convertEdgeListToVertices(edgeList);
@@ -76,7 +76,7 @@ public class Path implements Comparable<Path>{
 		return cost;
 	}
 	
-	public int compareTo(Path comparePath) {
+	public int compareTo(WordPath comparePath) {
 		return (this.getCost() > comparePath.getCost()) ? 1 : -1;
 	}
 	
