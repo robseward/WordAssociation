@@ -1,18 +1,19 @@
 WORD ASSOCIATION
 =====
 
-This is a java library that provides shortest path analysis for the USF Word Association Norms.
+A Java library that provides shortest path analysis for the USF Word Association Norms.
 
 To Use
 ----
 
-Download the files [here](WordAssociation.zip)  
-Place these two files in the same directory as your sketch:
+These instructions are for use with Processing
 
-[master_word_list.txt](master_word_list.txt)  
-[adjusted_edges_list.txt](adjusted_edges_list.txt)
+1. Download the library files [here](http://robseward.com/misc/WordAssociation.zip)  
+2. Place these two files in the same directory as your sketch (they included in the library folder):  
+[master_word_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/master_word_list.txt)  
+[adjusted_edges_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/adjusted_edges_list.txt)
 
-Place the folder *WordAssociation* in the library folder in your Processing documents folder.
+3. Place the folder *WordAssociation* in the library folder in your Processing documents folder.
 
 ## Example code
 
