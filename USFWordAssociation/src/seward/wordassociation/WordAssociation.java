@@ -19,7 +19,8 @@ public class WordAssociation {
 		WordAssociation wa = new WordAssociation("master_word_list.txt", "adjusted_edges_list.txt");		
 		
 		try{
-			ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
+			wa.setSourceWord("DEATH");
+			ArrayList<WordPath> paths = wa.getAllPaths();
 			for(int i=0; i < 1000; i++){
 				WordPath p = paths.get(i);
 				System.out.println(p.toString());
@@ -34,19 +35,19 @@ public class WordAssociation {
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 
-
 		graph = new AssociationGraph();
         loadWordList(wordListPath);
         loadEdges(edgeListPath);
 	}	
 
-	public ArrayList<WordPath> getPathListForWord(String word) throws Exception
+	public ArrayList<WordPath> getAllPaths() throws Exception
 	{
+		if(this.sourceWord == null)
+			throw new Exception("Source word has not been set");
 		ArrayList<WordPath> list = new ArrayList<WordPath>();
-		this.setSourceWord(word);
 		for(int i=0; i<wordList.size(); i++){
 			String targetWord = wordList.get(i);
-			if(targetWord.equals(word) == false){
+			if(targetWord.equals(this.sourceWord) == false){
 				try{
 					WordPath p = pathForWord(targetWord);
 					list.add(p);
@@ -61,7 +62,8 @@ public class WordAssociation {
 	
 	public WordPath pathForWord(String word) throws Exception
 	{
-		//TODO assert that source word has been set
+		if(this.sourceWord == null)
+			throw new Exception("Source word not set");
 		String wordId = wordIdForWord(word);
 		List<WeightedEdge> list = bfPath.getPathEdgeList(wordId);
 		WordPath p = new WordPath(list, this.sourceWord, wordList);
@@ -69,7 +71,7 @@ public class WordAssociation {
 		return p;
 	}
 	
-	private void setSourceWord(String word) throws Exception
+	public void setSourceWord(String word) throws Exception
 	{
 		String wordId = wordIdForWord(word);
 		this.bfPath = new BellmanFordShortestPath<String,WeightedEdge>(this.graph, wordId);
