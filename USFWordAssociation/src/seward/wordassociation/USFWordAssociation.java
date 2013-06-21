@@ -17,28 +17,30 @@ public class USFWordAssociation {
 	public static void main(String[] args) {
 		
 		USFWordAssociation wa = new USFWordAssociation();		
+		wa.loadWordList("master_word_list.txt");
+		wa.loadEdges("adjusted_edges_list.txt");
 		
-		ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
-		for(int i=0; i < 1000; i++){
-			WordPath p = paths.get(i);
-			System.out.println(p.toString());
+		try{
+			ArrayList<WordPath> paths = wa.getPathListForWord("DEATH");
+			for(int i=0; i < 1000; i++){
+				WordPath p = paths.get(i);
+				System.out.println(p.toString());
+			}
+		}catch(Exception e){
+			System.out.println(e);
 		}
+
 	}
 	
 	//constructor
-	public USFWordAssociation(){
-		
+	public USFWordAssociation(){		
 		final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
-		
+
 		graph = new AssociationGraph();
-		loadWordList("master_word_list.txt");
-		loadEdges("adjusted_edges_list.txt");
-		
+	}	
 
-	}
-
-	public ArrayList<WordPath> getPathListForWord(String word)
+	public ArrayList<WordPath> getPathListForWord(String word) throws Exception
 	{
 		ArrayList<WordPath> list = new ArrayList<WordPath>();
 		this.setSourceWord(word);
@@ -57,7 +59,7 @@ public class USFWordAssociation {
 		return list;
 	}
 	
-	public WordPath pathForWord(String word)
+	public WordPath pathForWord(String word) throws Exception
 	{
 		//TODO assert that source word has been set
 		String wordId = wordIdForWord(word);
@@ -67,14 +69,14 @@ public class USFWordAssociation {
 		return p;
 	}
 	
-	private void setSourceWord(String word)
+	private void setSourceWord(String word) throws Exception
 	{
 		String wordId = wordIdForWord(word);
 		this.bfPath = new BellmanFordShortestPath<String,WeightedEdge>(this.graph, wordId);
 		this.sourceWord = word;
 	}
 	
-	private String wordIdForWord(String word){
+	private String wordIdForWord(String word) throws Exception{
 		//TODO throw error if word is not found
 		//TODO optimize this, use a hash
 		String uppercaseWord = word.toUpperCase();
@@ -86,6 +88,8 @@ public class USFWordAssociation {
 				break;
 			}
 		}
+		if(wordId == null)
+			throw new Exception("Word not found");
 		return wordId;
 	}
 	
