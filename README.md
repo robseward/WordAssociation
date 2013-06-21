@@ -18,23 +18,30 @@ These instructions are for use with Processing
 ## Example code
 
 	import seward.wordassociation.*;
-	
+
 	void setup() {
 	  size(200, 200);  
 	
 	  String wordListPath = sketchPath("master_word_list.txt");
 	  String edgesPath = sketchPath("adjusted_edges_list.txt");
-
+	
 	  WordAssociation wa = new WordAssociation(wordListPath, edgesPath);
 	
 	  try {
-	    wa.setSourceWord("life");
-
-	    ArrayList<WordPath> paths = wa.getAllPaths();
-	    for (int i=0; i < 1000; i++) {
-	      WordPath p = paths.get(i);
-	      System.out.println(p.toString());
-	    }
+	    wa.setSourceWord("ocean");
+	
+	    WordPath redPath = wa.pathForWord("red");
+	    WordPath greenPath = wa.pathForWord("green");
+	    WordPath bluePath = wa.pathForWord("blue");
+	    
+	    println(redPath.toString());
+	    println(bluePath.toString());
+	        
+	    if(redPath.getCost() < bluePath.getCost())
+	      background(255,0,0);
+	    else
+	      background(0,0,255);
+	  
 	  }
 	  catch(Exception e) {
 	    println(e);
