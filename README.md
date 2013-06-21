@@ -6,7 +6,7 @@ This is a java library that provides shortest path analysis for the USF Word Ass
 To Use
 ----
 
-Download the files [here](files.zip)  
+Download the files [here](WordAssociation.zip)  
 Place these two files in the same directory as your sketch:
 
 [master_word_list.txt](master_word_list.txt)  
@@ -15,6 +15,30 @@ Place these two files in the same directory as your sketch:
 Place the folder *WordAssociation* in the library folder in your Processing documents folder.
 
 ## Example code
+
+	import seward.wordassociation.*;
+	
+	void setup() {
+	  size(200, 200);  
+	
+	  String wordListPath = sketchPath("master_word_list.txt");
+	  String edgesPath = sketchPath("adjusted_edges_list.txt");
+
+	  WordAssociation wa = new WordAssociation(wordListPath, edgesPath);
+	
+	  try {
+	    wa.setSourceWord("life");
+
+	    ArrayList<WordPath> paths = wa.getAllPaths();
+	    for (int i=0; i < 1000; i++) {
+	      WordPath p = paths.get(i);
+	      System.out.println(p.toString());
+	    }
+	  }
+	  catch(Exception e) {
+	    println(e);
+	  }
+	}
 
 ## Classes
 
