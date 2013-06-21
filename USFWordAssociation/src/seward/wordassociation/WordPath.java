@@ -60,11 +60,11 @@ public class WordPath implements Comparable<WordPath>{
 	
 
 	
-	String getSource(){
+	public String getSource(){
 		return vertices.get(0);
 	}
 	
-	String getTarget(){
+	public String getTarget(){
 		return vertices.get(vertices.size()-1);
 	}
 	
@@ -72,12 +72,12 @@ public class WordPath implements Comparable<WordPath>{
 		this.cost = c;
 	}
 	
-	double getCost()
+	public double getCost()
 	{
 		return cost;
 	}
 	
-	ArrayList<String> getPathVertices(){
+	public ArrayList<String> getPathVertices(){
 		return vertices;
 	}
 	

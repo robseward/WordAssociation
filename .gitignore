@@ -26,3 +26,5 @@ local.properties
 .buildpath
 USFWordAssociation/bin/com/WordAssociation/Path.class
 USFWordAssociation/bin/com/WordAssociation/USFWordAssociation.class
+USFWordAssociation/bin/seward/wordassociation/WordAssociation.class
+USFWordAssociation/bin/seward/wordassociation/WordPath.class

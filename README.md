@@ -53,9 +53,15 @@ These instructions are for use with Processing
 
 `public setSourceWord(String word)`
 
-This must be set before pathForWord is called. It is the word from which all paths will be calculated from.
+This must be set before pathForWord or getAllPaths is called. It is the word from which all paths will be calculated from.
 
 *String word* -- the source word
+
+`public WordPath pathForWord(String word) throws Exception`
+
+Returns the shortest path from the source word to the input word.
+
+*string word* -- the source word
 
 `public ArrayList<WordPath> getAllPaths() throws Exception`
 
