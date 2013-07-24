@@ -31,7 +31,6 @@ These instructions are for use with Processing
 	    wa.setSourceWord("ocean");
 	
 	    WordPath redPath = wa.pathForWord("red");
-	    WordPath greenPath = wa.pathForWord("green");
 	    WordPath bluePath = wa.pathForWord("blue");
 	    
 	    println(redPath.toString());
