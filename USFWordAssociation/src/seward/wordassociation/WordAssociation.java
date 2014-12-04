@@ -14,22 +14,6 @@ public class WordAssociation {
 	BellmanFordShortestPath<String, WeightedEdge> bfPath;
 	String sourceWord;
 
-	public static void main(String[] args) {
-		
-		WordAssociation wa = new WordAssociation("master_word_list.txt", "adjusted_edges_list.txt");		
-		
-		try{
-			wa.setSourceWord("life");
-			ArrayList<WordPath> paths = wa.getAllPaths();
-			for(int i=0; i < 100; i++){
-				WordPath p = paths.get(i);
-				System.out.println(p.toString());
-			}
-		}catch(Exception e){
-			System.out.println(e);
-		}
-	}
-	
 	//constructor
 	public WordAssociation(String wordListPath, String edgeListPath){		
 		final String dir = System.getProperty("user.dir");
