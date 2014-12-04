@@ -17,11 +17,11 @@ public class WordAssociation {
 	//constructor
 	public WordAssociation(String wordListPath, String edgeListPath){		
 		final String dir = System.getProperty("user.dir");
-        System.out.println("current dir = " + dir);
+        	System.out.println("current dir = " + dir);
 
 		graph = new AssociationGraph();
-        loadWordList(wordListPath);
-        loadEdges(edgeListPath);
+        	loadWordList(wordListPath);
+        	loadEdges(edgeListPath);
 	}	
 
 	public ArrayList<WordPath> getAllPaths() throws Exception
