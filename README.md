@@ -1,21 +1,11 @@
 Word Association
 =====
 
-A Java library that provides shortest path analysis for the USF Word Association Norms.
+A Java library that provides shortest path analysis for the [USF Word Association Norms](http://w3.usf.edu/FreeAssociation/).
 
-To Use
-----
+## Example
 
-These instructions are for use with Processing
-
-1. Download the library files [here](http://robseward.com/misc/WordAssociation.zip)  
-2. Place these two files in the same directory as your sketch (they are included in the library folder):  
-[master_word_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/master_word_list.txt)  
-[adjusted_edges_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/adjusted_edges_list.txt)
-
-3. Place the folder *WordAssociation* in the library folder in your Processing documents folder.
-
-## Example code
+This Processing app takes a source word, in this case "ocean," and changes the background to either red or blue based on the source word's semantic distance to "red" and "blue." In this case, the background goes to blue. If you change the source word to "blood," it will change to red.
 
 	import seward.wordassociation.*;
 
@@ -46,6 +36,20 @@ These instructions are for use with Processing
 	    println(e);
 	  }
 	}
+
+
+Installation
+----
+
+These instructions are for use with Processing
+
+1. Download the library files [here](http://robseward.com/misc/WordAssociation.zip)  
+2. Place these two files in the same directory as your sketch (they are included in the library folder):  
+[master_word_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/master_word_list.txt)  
+[adjusted_edges_list.txt](https://raw.github.com/robseward/WordAssociation/master/USFWordAssociation/adjusted_edges_list.txt)
+
+3. Place the folder *WordAssociation* in the library folder in your Processing documents folder.
+
 
 ## Classes
 
